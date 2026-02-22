@@ -1,0 +1,30 @@
+{
+  "name": "remenoscodes",
+  "description": "Claude Code plugins by Emerson Soares — distributed tools, ambient coaching, and developer productivity",
+  "owner": {
+    "name": "Emerson Soares",
+    "url": "https://github.com/remenoscodes"
+  },
+  "plugins": [
+    {
+      "name": "claude-language-coach",
+      "description": "Ambient language coaching during coding sessions. Learn languages through your daily work with contextual grammar corrections, vocabulary suggestions, false friend alerts, and pronunciation guidance.",
+      "category": "learning",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/remenoscodes/claude-language-coach.git"
+      },
+      "homepage": "https://github.com/remenoscodes/claude-language-coach"
+    },
+    {
+      "name": "claude-git-native-issue",
+      "description": "Replace Claude's internal task management with git-native-issue. Autonomous issue creation, tracking, and resolution stored as Git refs. Distributed, offline-first, travels with your code.",
+      "category": "productivity",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/remenoscodes/claude-git-native-issue.git"
+      },
+      "homepage": "https://github.com/remenoscodes/claude-git-native-issue"
+    }
+  ]
+}
