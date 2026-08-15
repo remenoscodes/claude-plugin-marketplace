@@ -56,15 +56,32 @@ jobs:
           python3 -c "
           import json, subprocess, sys
 
+          # Plugins whose repositories are intentionally private. CI runs
+          # unauthenticated, so GitHub returns 404 for these — indistinguishable
+          # from a typo. Listing them explicitly keeps the check meaningful for
+          # every other entry instead of downgrading 404 to a warning globally,
+          # which would let a genuinely broken public URL through unnoticed.
+          #
+          # Remove a name from this list when its repository goes public.
+          PRIVATE = {
+              'claude-statecraft',
+              'claude-systems-thinking',
+          }
+
           with open('.claude-plugin/marketplace.json') as f:
               data = json.load(f)
 
           failed = False
           for plugin in data['plugins']:
+              name = plugin['name']
               url = plugin.get('source', {}).get('url', '')
               if not url:
                   continue
-              # Convert .git URL to HTTPS for curl check
+
+              if name in PRIVATE:
+                  print(f'  {name}: SKIPPED (declared private)')
+                  continue
+
               check_url = url.replace('.git', '')
               result = subprocess.run(
                   ['curl', '-sL', '-o', '/dev/null', '-w', '%{http_code}', '--max-time', '10', check_url],
@@ -72,12 +89,46 @@ jobs:
               )
               code = result.stdout.strip()
               if code.startswith('2') or code.startswith('3'):
-                  print(f'  {plugin[\"name\"]}: {check_url} -> {code}')
+                  print(f'  {name}: {check_url} -> {code}')
               else:
-                  print(f'  {plugin[\"name\"]}: {check_url} -> {code} FAILED')
+                  print(f'  {name}: {check_url} -> {code} FAILED')
+                  print(f'    (if this repo is intentionally private, add \"{name}\" to PRIVATE above)')
                   failed = True
 
           if failed:
               sys.exit(1)
-          print('All source URLs reachable')
+          print('All public source URLs reachable')
+          "
+
+      - name: Warn on stale private declarations
+        run: |
+          echo "Checking whether any declared-private repo has gone public..."
+          python3 -c "
+          import json, subprocess
+
+          PRIVATE = {
+              'claude-statecraft',
+              'claude-systems-thinking',
+          }
+
+          with open('.claude-plugin/marketplace.json') as f:
+              data = json.load(f)
+
+          for plugin in data['plugins']:
+              name = plugin['name']
+              if name not in PRIVATE:
+                  continue
+              url = plugin.get('source', {}).get('url', '').replace('.git', '')
+              if not url:
+                  continue
+              result = subprocess.run(
+                  ['curl', '-sL', '-o', '/dev/null', '-w', '%{http_code}', '--max-time', '10', url],
+                  capture_output=True, text=True
+              )
+              code = result.stdout.strip()
+              if code.startswith('2'):
+                  print(f'  NOTE: {name} is reachable ({code}) but still listed as private.')
+                  print(f'        Remove it from PRIVATE so it gets validated again.')
+              else:
+                  print(f'  {name}: still private ({code})')
           "

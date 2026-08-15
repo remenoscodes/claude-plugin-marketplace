@@ -25,6 +25,26 @@
         "url": "https://github.com/remenoscodes/claude-git-native-issue.git"
       },
       "homepage": "https://github.com/remenoscodes/claude-git-native-issue"
+    },
+    {
+      "name": "claude-statecraft",
+      "description": "Disciplined reasoning under uncertainty for Claude. Bundles StateCraft MCP server v2 + 6 skills + 3 commands + hooks + subagents enforcing 4-layer epistemic discipline. Switches LLM from free-form inference to traceable derivations via the StateCraft engine.",
+      "category": "reasoning",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/remenoscodes/claude-statecraft.git"
+      },
+      "homepage": "https://github.com/remenoscodes/claude-statecraft"
+    },
+    {
+      "name": "claude-systems-thinking",
+      "description": "Second epistemic gate: guards invented causal structure. Names the mechanism, the feedback loop, the stock-vs-rate distinction, and the delay before proposing an intervention. Derived from Donella Meadows' System Dynamics lectures.",
+      "category": "workflow",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/remenoscodes/claude-systems-thinking.git"
+      },
+      "homepage": "https://github.com/remenoscodes/claude-systems-thinking"
     }
   ]
 }
