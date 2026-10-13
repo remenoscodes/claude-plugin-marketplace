@@ -2,7 +2,7 @@
 
 Central marketplace for Claude Code plugins by Emerson Soares. Lists plugins via URL-based sources with CI validation.
 
-Inherits workspace conventions from `~/CLAUDE.md`.
+Inherits workspace conventions from `~/AGENTS.md`.
 
 ## Status
 - **Version**: 1.0.0
